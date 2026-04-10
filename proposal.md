@@ -3,10 +3,12 @@
 ## Repository
 https://github.com/rodrmart1024/2305-FinalProjectProposal.git
 
+
 ## Description
 Using user responses, it will create a geometric artwork. This program will
 simulate the creative workflow of Composition II in Red, Blue, and Yellow by
 Piet Mondrian.
+
 
 ## Features
 - User input for # of Grid Line + Colored Squares, Color Scheme and Saturation.
@@ -16,11 +18,13 @@ Piet Mondrian.
 - User can sign their 1/1 artwork.
 	- Allowing the user to input their name, typeface and font size.
 
+
 ## Challenges
 - Read turtle libary. How to create random rectangles or squares while keeping
 two sides equal to eachother.
 - How to adjust the saturation of colored shapes and not the canvas or grid.
 - How to get colored shapes to generate inside of grid shapes without overlapping.
+
 
 ## Outcomes
 Ideal Outcome: Watch the 1/1 artwork be created using all options avalible.
@@ -40,8 +44,8 @@ Minimal Viable Outcome: Pulled features and changes include the following.
 overlapping will occur causing "L" shaped connections.
 + All other features such as Animation and Typeface will still be present.
 
-## Milestones
 
+## Milestones
 - Week 1
   1. Gather resources from PFDA Lectures and Notes
   2. Create the Pop-Up Window

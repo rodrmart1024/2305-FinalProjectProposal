@@ -25,13 +25,14 @@ class MondrianInspiredArtUI(QtWidgets.QDialog):
         self.grid_lines_ui()
         self.square_amount_ui()
         self.color_scheme_ui()
-        self.signiture_ui()
+        self.signature_ui()
+        self.saturation_ui()
         self.generate_button_ui()
 
 
     def grid_lines_ui(self):
         '''Creates the UI for Vertical and Horizontal Lines'''
-        grid_group = QtWidgets.QGroupBox('Painting Lines:')
+        grid_group = QtWidgets.QGroupBox('Grid Lines:')
         grid_ui_layout = QtWidgets.QFormLayout()
         grid_ui_layout.setSpacing(10)
 
@@ -52,7 +53,7 @@ class MondrianInspiredArtUI(QtWidgets.QDialog):
 
     def square_amount_ui(self):
         '''Creates the UI for amount of Squares'''
-        square_group = QtWidgets.QGroupBox('Painting Squares:')
+        square_group = QtWidgets.QGroupBox('Squares:')
         square_ui_layout = QtWidgets.QFormLayout()
         square_ui_layout.setSpacing(10)
 
@@ -98,7 +99,19 @@ class MondrianInspiredArtUI(QtWidgets.QDialog):
             for scheme_type in self.color_scheme_checkboxes:
                 self.color_scheme_checkboxes[scheme_type].setEnabled(True)
 
-    def signiture_ui(self):
+    def signature_ui(self):
+        """Creates the Signature UI comprised of TypeFace, FontSize, Name"""
+        signature_group = QtWidgets.QGroupBox('Signature:')
+        signature_ui_layout = QtWidgets.QFormLayout()
+        signature_ui_layout.setSpacing(10)
+
+        self.username_input = QtWidgets.QLineEdit()
+        signature_ui_layout.addRow("Name: ", self.username_input) 
+
+        signature_group.setLayout(signature_ui_layout)
+        self.layout.addWidget(signature_group) 
+
+    def saturation_ui(self):
         pass
 
     def generate_button_ui(self):

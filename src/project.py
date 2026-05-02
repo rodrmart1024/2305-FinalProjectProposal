@@ -1,8 +1,7 @@
 from PySide6 import QtWidgets, QtCore, QtGui
-
 class MondrianInspiredArtBuild():
 
-    def build_grid():
+    def build_grid(veritcal_lines, horizaontal_lines):
         pass
 
     def build_colored_squares():
@@ -17,8 +16,8 @@ class MondrianInspiredArtUI():
     def __init__(self):
         super().__init__()
         self.setWindowTitle("Mondrian Inspired Generator")
-        self. resize(400, 600)
-        self.layout = QtWidgets.QVBoxLayout(self)
+        self. resize(1080, 1920)
+        self.layout = QtWidgets.QVBoxL3ayout(self)
 
         self.grid_lines_ui()
         self.square_amount_ui()
@@ -27,22 +26,37 @@ class MondrianInspiredArtUI():
         self.generate_button_ui()
 
 
-    def grid_lines_ui():
+    def grid_lines_ui(self):
+        grid_ui_layout = QtWidgets.QVBoxLayout()
+        grid_ui_layout.setSpacing(10)
+
+        self.vertical_input = QSpinBox()
+        self.vertial_input.setMinimum(2)
+        self.vertical_input.setMaximum(10)
+        self.vertical_input.valueChanged.connect(self)
+        grid_ui_layout.addRow("Select Amount of Horizontal Lines: ", 
+                           self.horizontal_input)
+        
+        self.horizontal_input = QSpinBox()
+        self.horizontal_input.setMinimum(2)
+        self.horizontal_input.setMaximum(6)
+        self.horizontal_input.valueChanged.connect(self)
+        grid_ui_layout.addRow("Select Amount of Horizontal Lines: ", 
+                           self.horizontal_input)
+
+    def square_amount_ui(self):
         pass
 
-    def square_amount_ui():
+    def color_scheme_ui(self):
         pass
 
-    def color_scheme_ui():
+    def signiture_ui(self):
         pass
 
-    def signiture_ui():
+    def generate_button_ui(self):
         pass
 
-    def generate_button_ui():
-        pass
-
-    def generate_artwork():
+    def generate_artwork(self):
         pass
 
 
@@ -50,7 +64,6 @@ def show_ui():
     app = QtWidgets.QApplication()
     MondrianInspiredArtUI().show()
     app.exec()
-
 
 if __name__ == "__main__":
     show_ui()

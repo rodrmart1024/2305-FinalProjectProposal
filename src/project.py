@@ -1,23 +1,26 @@
+import sys
 from PySide6 import QtWidgets, QtCore, QtGui
+
+
 class MondrianInspiredArtBuild():
 
-    def build_grid(veritcal_lines, horizaontal_lines):
+    def build_grid(self, vertical_lines, horizontal_lines):
         pass
 
-    def build_colored_squares():
+    def build_colored_squares(self):
         pass
 
-    def build_signiture():
+    def build_signature(self):
         pass
 
 
-class MondrianInspiredArtUI():
+class MondrianInspiredArtUI(QtWidgets.QDialog):
 
     def __init__(self):
         super().__init__()
         self.setWindowTitle("Mondrian Inspired Generator")
-        self. resize(1080, 1920)
-        self.layout = QtWidgets.QVBoxL3ayout(self)
+        self. resize(1920, 1080)
+        self.layout = QtWidgets.QVBoxLayout(self)
 
         self.grid_lines_ui()
         self.square_amount_ui()
@@ -27,22 +30,24 @@ class MondrianInspiredArtUI():
 
 
     def grid_lines_ui(self):
-        grid_ui_layout = QtWidgets.QVBoxLayout()
+        grid_group = QtWidgets.QGroupBox('Painting Lines:')
+        grid_ui_layout = QtWidgets.QFormLayout()
         grid_ui_layout.setSpacing(10)
 
-        self.vertical_input = QSpinBox()
-        self.vertial_input.setMinimum(2)
+        self.vertical_input = QtWidgets.QSpinBox()
+        self.vertical_input.setMinimum(2)
         self.vertical_input.setMaximum(10)
-        self.vertical_input.valueChanged.connect(self)
-        grid_ui_layout.addRow("Select Amount of Horizontal Lines: ", 
-                           self.horizontal_input)
+        grid_ui_layout.addRow("Amount of Vertical Lines: ", 
+                           self.vertical_input)
         
-        self.horizontal_input = QSpinBox()
+        self.horizontal_input = QtWidgets.QSpinBox()
         self.horizontal_input.setMinimum(2)
         self.horizontal_input.setMaximum(6)
-        self.horizontal_input.valueChanged.connect(self)
-        grid_ui_layout.addRow("Select Amount of Horizontal Lines: ", 
+        grid_ui_layout.addRow("Amount of Horizontal Lines: ", 
                            self.horizontal_input)
+        
+        grid_group.setLayout(grid_ui_layout)
+        self.layout.addWidget(grid_group)
 
     def square_amount_ui(self):
         pass
@@ -61,8 +66,9 @@ class MondrianInspiredArtUI():
 
 
 def show_ui():
-    app = QtWidgets.QApplication()
-    MondrianInspiredArtUI().show()
+    app = QtWidgets.QApplication(sys.argv)
+    window = MondrianInspiredArtUI()
+    window.show()
     app.exec()
 
 if __name__ == "__main__":

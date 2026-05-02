@@ -108,8 +108,16 @@ class MondrianInspiredArtUI(QtWidgets.QDialog):
         self.username_input = QtWidgets.QLineEdit()
         signature_ui_layout.addRow("Name: ", self.username_input) 
 
+        self.typdace_input = QtWidgets.QComboBox()
+        self.typdace_input.addItems(["Arial", "Times New Roman"])
+        signature_ui_layout.addRow("Select a Typeface: ", self.typdace_input) 
+
+        self.fontsize_input = QtWidgets.QComboBox()
+        self.fontsize_input.addItems(["10", "12", "16", "20"])
+        signature_ui_layout.addRow("Select a Font Size: ", self.fontsize_input) 
+
         signature_group.setLayout(signature_ui_layout)
-        self.layout.addWidget(signature_group) 
+        self.layout.addWidget(signature_group)
 
     def saturation_ui(self):
         pass

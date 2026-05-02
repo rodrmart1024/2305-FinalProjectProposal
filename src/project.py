@@ -66,7 +66,37 @@ class MondrianInspiredArtUI(QtWidgets.QDialog):
         self.layout.addWidget(square_group)
 
     def color_scheme_ui(self):
-        pass
+        """Creates Checkboxes for Color Schemes"""
+        color_scheme_group = QtWidgets.QGroupBox('Color Scheme:')
+        color_scheme_layout = QtWidgets.QGridLayout()
+        self.color_scheme_checkboxes = {}
+
+        schemes = ['Monochromatic', 'Analogous', 'Complementary']
+        for value, scheme_type in enumerate(schemes):
+            checkbox = QtWidgets.QCheckBox(scheme_type)
+            checkbox.stateChanged.connect(self.color_scheme_limiter)
+
+            self.color_scheme_checkboxes[scheme_type] = checkbox
+            color_scheme_layout.addWidget(checkbox, value // 3, value % 3)
+
+        color_scheme_group.setLayout(color_scheme_layout)
+        self.layout.addWidget(color_scheme_group)
+
+    def color_scheme_limiter(self):
+        """UI Function that Limits Scheme to One"""
+        selected = []
+
+        for scheme_type in self.color_scheme_checkboxes:
+            if self.color_scheme_checkboxes[scheme_type].isChecked():
+                selected.append(scheme_type)
+        
+        if len(selected) == 1:
+            for scheme_type in self.color_scheme_checkboxes:
+                if scheme_type not in selected:
+                    self.color_scheme_checkboxes[scheme_type].setEnabled(False)
+        else:
+            for scheme_type in self.color_scheme_checkboxes:
+                self.color_scheme_checkboxes[scheme_type].setEnabled(True)
 
     def signiture_ui(self):
         pass

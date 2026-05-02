@@ -1,24 +1,59 @@
 from PySide6 import QtWidgets, QtCore, QtGui
 
+class MondrianInspiredArtBuild():
 
-def main():
-    pass
+    def build_grid():
+        pass
 
-def mondrian_inspired_art_ui():
-    pass
+    def build_colored_squares():
+        pass
 
-class MondrianInspiredArt():
-
-    def meth_1():
+    def build_signiture():
         pass
 
 
-    def meth_2():
+class MondrianInspiredArtUI():
+
+    def __init__(self):
+        super().__init__()
+        self.setWindowTitle("Mondrian Inspired Generator")
+        self. resize(400, 600)
+        self.layout = QtWidgets.QVBoxLayout(self)
+
+        self.grid_lines_ui()
+        self.square_amount_ui()
+        self.color_scheme_ui()
+        self.signiture_ui()
+        self.generate_button_ui()
+
+
+    def grid_lines_ui():
         pass
+
+    def square_amount_ui():
+        pass
+
+    def color_scheme_ui():
+        pass
+
+    def signiture_ui():
+        pass
+
+    def generate_button_ui():
+        pass
+
+    def generate_artwork():
+        pass
+
+
+def show_ui():
+    app = QtWidgets.QApplication()
+    MondrianInspiredArtUI().show()
+    app.exec()
 
 
 if __name__ == "__main__":
-    main()
+    show_ui()
 
 # Using Pyside6 for the Widgets and Painter tools
 # Create the Window

@@ -108,9 +108,9 @@ class MondrianInspiredArtUI(QtWidgets.QDialog):
         self.username_input = QtWidgets.QLineEdit()
         signature_ui_layout.addRow("Name: ", self.username_input) 
 
-        self.typdace_input = QtWidgets.QComboBox()
-        self.typdace_input.addItems(["Arial", "Times New Roman"])
-        signature_ui_layout.addRow("Select a Typeface: ", self.typdace_input) 
+        self.typeface_input = QtWidgets.QComboBox()
+        self.typeface_input.addItems(["Arial", "Times New Roman"])
+        signature_ui_layout.addRow("Select a Typeface: ", self.typeface_input) 
 
         self.fontsize_input = QtWidgets.QComboBox()
         self.fontsize_input.addItems(["10", "12", "16", "20"])
@@ -126,7 +126,10 @@ class MondrianInspiredArtUI(QtWidgets.QDialog):
         pass
 
     def generate_artwork(self):
-        pass
+        """Collects from input UI and sends to Build"""
+        name = self.username_input.text()
+        typeface = self.typeface_input.currentText()
+        fontsize = self.fontsize_input.currentText()
 
 
 def show_ui():

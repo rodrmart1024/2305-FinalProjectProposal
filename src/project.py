@@ -30,6 +30,7 @@ class MondrianInspiredArtUI(QtWidgets.QDialog):
 
 
     def grid_lines_ui(self):
+        '''Creates the UI for Vertical and Horizontal Lines'''
         grid_group = QtWidgets.QGroupBox('Painting Lines:')
         grid_ui_layout = QtWidgets.QFormLayout()
         grid_ui_layout.setSpacing(10)
@@ -50,7 +51,19 @@ class MondrianInspiredArtUI(QtWidgets.QDialog):
         self.layout.addWidget(grid_group)
 
     def square_amount_ui(self):
-        pass
+        '''Creates the UI for amount of Squares'''
+        square_group = QtWidgets.QGroupBox('Painting Squares:')
+        square_ui_layout = QtWidgets.QFormLayout()
+        square_ui_layout.setSpacing(10)
+
+        self.square_amount_input = QtWidgets.QSpinBox()
+        self.square_amount_input.setMinimum(3)
+        self.square_amount_input.setMaximum(40)
+        square_ui_layout.addRow("Amount of Squares: ", 
+                           self.square_amount_input)
+
+        square_group.setLayout(square_ui_layout)
+        self.layout.addWidget(square_group)
 
     def color_scheme_ui(self):
         pass

@@ -2,15 +2,13 @@ import sys
 from PySide6 import QtWidgets, QtCore, QtGui
 
 
-class MondrianInspiredArtBuild():
-
-    def build_grid(self, vertical_lines, horizontal_lines):
+def build_grid(vertical_lines, horizontal_lines):
         pass
 
-    def build_colored_squares(self):
+def build_colored_squares(square_amount, saturation):
         pass
 
-    def build_signature(self):
+def build_signature(name, typeface, fontsize):
         pass
 
 
@@ -19,7 +17,7 @@ class MondrianInspiredArtUI(QtWidgets.QDialog):
     def __init__(self):
         super().__init__()
         self.setWindowTitle("Mondrian Inspired Generator")
-        self. resize(1920, 1080)
+        self.resize(1920, 1000)
         self.layout = QtWidgets.QVBoxLayout(self)
 
         self.grid_lines_ui()
@@ -66,39 +64,6 @@ class MondrianInspiredArtUI(QtWidgets.QDialog):
         square_group.setLayout(square_ui_layout)
         self.layout.addWidget(square_group)
 
-    # def color_scheme_ui(self):
-    #     """Creates Checkboxes for Color Schemes"""
-    #     color_scheme_group = QtWidgets.QGroupBox('Color Scheme:')
-    #     color_scheme_layout = QtWidgets.QGridLayout()
-    #     self.color_scheme_checkboxes = {}
-
-    #     schemes = ['Monochromatic', 'Analogous', 'Complementary']
-    #     for value, scheme_type in enumerate(schemes):
-    #         checkbox = QtWidgets.QCheckBox(scheme_type)
-    #         checkbox.stateChanged.connect(self.color_scheme_limiter)
-
-    #         self.color_scheme_checkboxes[scheme_type] = checkbox
-    #         color_scheme_layout.addWidget(checkbox, value // 3, value % 3)
-
-    #     color_scheme_group.setLayout(color_scheme_layout)
-    #     self.layout.addWidget(color_scheme_group)
-
-    # def color_scheme_limiter(self):
-    #     """UI Function that Limits Scheme to One"""
-    #     selected = []
-
-    #     for scheme_type in self.color_scheme_checkboxes:
-    #         if self.color_scheme_checkboxes[scheme_type].isChecked():
-    #             selected.append(scheme_type)
-        
-    #     if len(selected) == 1:
-    #         for scheme_type in self.color_scheme_checkboxes:
-    #             if scheme_type not in selected:
-    #                 self.color_scheme_checkboxes[scheme_type].setEnabled(False)
-    #     else:
-    #         for scheme_type in self.color_scheme_checkboxes:
-    #             self.color_scheme_checkboxes[scheme_type].setEnabled(True)
-
     def signature_ui(self):
         """Creates the Signature UI comprised of TypeFace, FontSize, Name"""
         signature_group = QtWidgets.QGroupBox('Signature:')
@@ -134,13 +99,29 @@ class MondrianInspiredArtUI(QtWidgets.QDialog):
         self.layout.addWidget(saturation_group)
 
     def generate_button_ui(self):
-        pass
+        """Creates a UI Button"""
+        gen_button_layout = QtWidgets.QHBoxLayout()
+        generate_btn = QtWidgets.QPushButton('Create Painting')
+        generate_btn.clicked.connect(self.generate_artwork)
+
+        gen_button_layout.addWidget(generate_btn)
+        self.layout.addLayout(gen_button_layout)
 
     def generate_artwork(self):
         """Collects from input UI and sends to Build"""
+        vertical_lines = self.vertical_input.value()
+        horizontal_lines = self.horizontal_input.value()
+        square_amount = self.square_amount_input.value()
+
         name = self.username_input.text()
         typeface = self.typeface_input.currentText()
-        fontsize = self.fontsize_input.currentText()
+        fontsize = int(self.fontsize_input.currentText())
+        saturation = int(self.saturation_percent_input.currentText())
+
+        build_grid(vertical_lines, horizontal_lines)
+        build_colored_squares(square_amount, saturation)
+        build_signature(name, typeface, fontsize)
+
 
 
 def show_ui():

@@ -24,7 +24,7 @@ class MondrianInspiredArtUI(QtWidgets.QDialog):
 
         self.grid_lines_ui()
         self.square_amount_ui()
-        self.color_scheme_ui()
+        # self.color_scheme_ui()
         self.signature_ui()
         self.saturation_ui()
         self.generate_button_ui()
@@ -66,45 +66,45 @@ class MondrianInspiredArtUI(QtWidgets.QDialog):
         square_group.setLayout(square_ui_layout)
         self.layout.addWidget(square_group)
 
-    def color_scheme_ui(self):
-        """Creates Checkboxes for Color Schemes"""
-        color_scheme_group = QtWidgets.QGroupBox('Color Scheme:')
-        color_scheme_layout = QtWidgets.QGridLayout()
-        self.color_scheme_checkboxes = {}
+    # def color_scheme_ui(self):
+    #     """Creates Checkboxes for Color Schemes"""
+    #     color_scheme_group = QtWidgets.QGroupBox('Color Scheme:')
+    #     color_scheme_layout = QtWidgets.QGridLayout()
+    #     self.color_scheme_checkboxes = {}
 
-        schemes = ['Monochromatic', 'Analogous', 'Complementary']
-        for value, scheme_type in enumerate(schemes):
-            checkbox = QtWidgets.QCheckBox(scheme_type)
-            checkbox.stateChanged.connect(self.color_scheme_limiter)
+    #     schemes = ['Monochromatic', 'Analogous', 'Complementary']
+    #     for value, scheme_type in enumerate(schemes):
+    #         checkbox = QtWidgets.QCheckBox(scheme_type)
+    #         checkbox.stateChanged.connect(self.color_scheme_limiter)
 
-            self.color_scheme_checkboxes[scheme_type] = checkbox
-            color_scheme_layout.addWidget(checkbox, value // 3, value % 3)
+    #         self.color_scheme_checkboxes[scheme_type] = checkbox
+    #         color_scheme_layout.addWidget(checkbox, value // 3, value % 3)
 
-        color_scheme_group.setLayout(color_scheme_layout)
-        self.layout.addWidget(color_scheme_group)
+    #     color_scheme_group.setLayout(color_scheme_layout)
+    #     self.layout.addWidget(color_scheme_group)
 
-    def color_scheme_limiter(self):
-        """UI Function that Limits Scheme to One"""
-        selected = []
+    # def color_scheme_limiter(self):
+    #     """UI Function that Limits Scheme to One"""
+    #     selected = []
 
-        for scheme_type in self.color_scheme_checkboxes:
-            if self.color_scheme_checkboxes[scheme_type].isChecked():
-                selected.append(scheme_type)
+    #     for scheme_type in self.color_scheme_checkboxes:
+    #         if self.color_scheme_checkboxes[scheme_type].isChecked():
+    #             selected.append(scheme_type)
         
-        if len(selected) == 1:
-            for scheme_type in self.color_scheme_checkboxes:
-                if scheme_type not in selected:
-                    self.color_scheme_checkboxes[scheme_type].setEnabled(False)
-        else:
-            for scheme_type in self.color_scheme_checkboxes:
-                self.color_scheme_checkboxes[scheme_type].setEnabled(True)
+    #     if len(selected) == 1:
+    #         for scheme_type in self.color_scheme_checkboxes:
+    #             if scheme_type not in selected:
+    #                 self.color_scheme_checkboxes[scheme_type].setEnabled(False)
+    #     else:
+    #         for scheme_type in self.color_scheme_checkboxes:
+    #             self.color_scheme_checkboxes[scheme_type].setEnabled(True)
 
     def signature_ui(self):
         """Creates the Signature UI comprised of TypeFace, FontSize, Name"""
         signature_group = QtWidgets.QGroupBox('Signature:')
         signature_ui_layout = QtWidgets.QFormLayout()
         signature_ui_layout.setSpacing(10)
-
+        # CHECK TO MAKE SURE METHOD WORKS AND ALSO GNERATE ARTWORK SETUP
         self.username_input = QtWidgets.QLineEdit()
         signature_ui_layout.addRow("Name: ", self.username_input) 
 
@@ -120,7 +120,18 @@ class MondrianInspiredArtUI(QtWidgets.QDialog):
         self.layout.addWidget(signature_group)
 
     def saturation_ui(self):
-        pass
+        """Creates the Saturation UI where users can select percentages"""
+        saturation_group = QtWidgets.QGroupBox('Saturation:')
+        saturation_ui_layout = QtWidgets.QFormLayout()
+        saturation_ui_layout.setSpacing(10)
+
+        self.saturation_percent_input = QtWidgets.QComboBox()
+        self.saturation_percent_input.addItems(["10", "20", "40", "60", "80"])
+        saturation_ui_layout.addRow("Select a Percentage: ",
+                                     self.saturation_percent_input) 
+
+        saturation_group.setLayout(saturation_ui_layout)
+        self.layout.addWidget(saturation_group)
 
     def generate_button_ui(self):
         pass

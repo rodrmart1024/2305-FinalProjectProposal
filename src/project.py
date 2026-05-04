@@ -22,10 +22,23 @@ def build_grid(vertical_lines, horizontal_lines):
 
     return vert_x_locations, horiz_y_locations
 
-def build_colored_squares(vert_x_locations, horiz_y_locations,square_amount,
+def build_colored_rectangles(vert_x_locations, horiz_y_locations,rectangle_amount,
                           saturation):
+    """Function that Creates the Colored Rectangles using cells"""
     xaxis_boundaries = [0] + vert_x_locations + [CANVAS_WIDTH]
     yaxis_boundaries = [0] + horiz_y_locations + [CANVAS_HEIGHT]
+    all_rectangles = []
+
+    for x in range(len(xaxis_boundaries) - 1):
+        for y in range(len(yaxis_boundaries) - 1):
+            rectangle_x = xaxis_boundaries[x]
+            rectangle_y = yaxis_boundaries[y]
+            rectangle_width = xaxis_boundaries[x + 1] - xaxis_boundaries[x]
+            rectangle_height = yaxis_boundaries[y + 1] - yaxis_boundaries[y]
+
+            all_rectangles.append((rectangle_x, rectangle_y, rectangle_width,
+                                    rectangle_height))
+    return all_rectangles
 
 def build_signature(name, typeface, fontsize):
     pass
@@ -47,7 +60,7 @@ class MondrianUI(QtWidgets.QDialog):
         window_layout.addWidget(self.canvas)
 
         self.grid_lines_ui()
-        self.square_amount_ui()
+        self.rectangle_amount_ui()
         self.signature_ui()
         self.saturation_ui()
         self.generate_button_ui()
@@ -73,20 +86,20 @@ class MondrianUI(QtWidgets.QDialog):
         grid_group.setLayout(grid_ui_layout)
         self.layout.addWidget(grid_group)
 
-    def square_amount_ui(self):
-        '''Creates the UI for amount of Squares'''
-        square_group = QtWidgets.QGroupBox('Squares:')
-        square_ui_layout = QtWidgets.QFormLayout()
-        square_ui_layout.setSpacing(10)
+    def rectangle_amount_ui(self):
+        '''Creates the UI for amount of Rectangles'''
+        rectangle_group = QtWidgets.QGroupBox('Rectangles:')
+        rectangle_ui_layout = QtWidgets.QFormLayout()
+        rectangle_ui_layout.setSpacing(10)
 
-        self.square_amount_input = QtWidgets.QSpinBox()
-        self.square_amount_input.setMinimum(3)
-        self.square_amount_input.setMaximum(40)
-        square_ui_layout.addRow("Amount of Squares: ", 
-                           self.square_amount_input)
+        self.rectangle_amount_input = QtWidgets.QSpinBox()
+        self.rectangle_amount_input.setMinimum(3)
+        self.rectangle_amount_input.setMaximum(40)
+        rectangle_ui_layout.addRow("Amount of Rectangles: ", 
+                           self.rectangle_amount_input)
 
-        square_group.setLayout(square_ui_layout)
-        self.layout.addWidget(square_group)
+        rectangle_group.setLayout(rectangle_ui_layout)
+        self.layout.addWidget(rectangle_group)
 
     def signature_ui(self):
         """Creates the Signature UI comprised of TypeFace, FontSize, Name"""
@@ -135,7 +148,7 @@ class MondrianUI(QtWidgets.QDialog):
         """Collects from input UI and sends to Build"""
         vertical_lines = self.vertical_input.value()
         horizontal_lines = self.horizontal_input.value()
-        square_amount = self.square_amount_input.value()
+        rectangle_amount = self.rectangle_amount_input.value()
 
         name = self.username_input.text()
         typeface = self.typeface_input.currentText()
@@ -148,7 +161,8 @@ class MondrianUI(QtWidgets.QDialog):
         self.canvas.horiz_y_locations = horiz_y_locations
         self.canvas.update()
         
-        build_colored_squares(square_amount, saturation)
+        build_colored_rectangles(vert_x_locations, horiz_y_locations,
+                                 rectangle_amount, saturation)
         build_signature(name, typeface, fontsize)
 
 
@@ -186,5 +200,5 @@ if __name__ == "__main__":
 
 # Using Pyside6 for the Widgets and Painter tools
 # Create the Grid
-# Create the Squares by trying the usage of cells
+# Create the rectangles by trying the usage of cells
 # Create the Signitures

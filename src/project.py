@@ -57,14 +57,14 @@ class MondrianUI(QtWidgets.QDialog):
         grid_ui_layout.setSpacing(10)
 
         self.vertical_input = QtWidgets.QSpinBox()
-        self.vertical_input.setMinimum(2)
-        self.vertical_input.setMaximum(10)
+        self.vertical_input.setMinimum(1)
+        self.vertical_input.setMaximum(5)
         grid_ui_layout.addRow("Amount of Vertical Lines: ", 
                            self.vertical_input)
         
         self.horizontal_input = QtWidgets.QSpinBox()
-        self.horizontal_input.setMinimum(2)
-        self.horizontal_input.setMaximum(6)
+        self.horizontal_input.setMinimum(1)
+        self.horizontal_input.setMaximum(5)
         grid_ui_layout.addRow("Amount of Horizontal Lines: ", 
                            self.horizontal_input)
         
@@ -140,10 +140,11 @@ class MondrianUI(QtWidgets.QDialog):
         fontsize = int(self.fontsize_input.currentText())
         saturation = int(self.saturation_percent_input.currentText())
 
-        vert_x_locations, horiz_y_loactions = build_grid(vertical_lines,
+        vert_x_locations, horiz_y_locations = build_grid(vertical_lines,
                                                          horizontal_lines)
         self.canvas.vert_x_locations = vert_x_locations
-        self.canvas.horiz_y_locations = horiz_y_loactions
+        self.canvas.horiz_y_locations = horiz_y_locations
+        self.canvas.update()
         
         build_colored_squares(square_amount, saturation)
         build_signature(name, typeface, fontsize)
@@ -160,6 +161,16 @@ class MondrianCanvas(QtWidgets.QWidget):
     def paintEvent(self, event):
         paint = QtGui.QPainter(self)
         paint.fillRect(self.rect(), QtGui.QColor('white'))
+        thickpen = QtGui.QPen(QtGui.QColor('black'))
+        thickpen.setWidth(8)
+        paint.setPen(thickpen)
+
+        for xpositions in self.vert_x_locations:
+            paint.drawLine(xpositions, 0, xpositions, CANVAS_HEIGHT)
+
+        for ypositions in self.horiz_y_locations:
+            paint.drawLine(0, ypositions, CANVAS_WIDTH, ypositions)
+        
         paint.end()
 
 def show_ui():

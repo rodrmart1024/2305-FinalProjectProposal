@@ -22,8 +22,10 @@ def build_grid(vertical_lines, horizontal_lines):
 
     return vert_x_locations, horiz_y_locations
 
-def build_colored_squares(square_amount, saturation):
-    pass
+def build_colored_squares(vert_x_locations, horiz_y_locations,square_amount,
+                          saturation):
+    xaxis_boundaries = [0] + vert_x_locations + [CANVAS_WIDTH]
+    yaxis_boundaries = [0] + horiz_y_locations + [CANVAS_HEIGHT]
 
 def build_signature(name, typeface, fontsize):
     pass

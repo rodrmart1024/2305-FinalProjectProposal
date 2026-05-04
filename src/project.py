@@ -1,32 +1,38 @@
 import sys
+import random
 from PySide6 import QtWidgets, QtCore, QtGui
 
 
 def build_grid(vertical_lines, horizontal_lines):
-        pass
+    pass
 
 def build_colored_squares(square_amount, saturation):
-        pass
+    pass
 
 def build_signature(name, typeface, fontsize):
         pass
 
 
-class MondrianInspiredArtUI(QtWidgets.QDialog):
+class MondrianUI(QtWidgets.QDialog):
 
     def __init__(self):
         super().__init__()
         self.setWindowTitle("Mondrian Inspired Generator")
         self.resize(1920, 1000)
-        self.layout = QtWidgets.QVBoxLayout(self)
+        window_layout = QtWidgets.QHBoxLayout(self)
+
+        left_panel = QtWidgets.QWidget()
+        self.layout = QtWidgets.QVBoxLayout(left_panel)
+        window_layout.addWidget(left_panel)
+
+        self.canvas = MondrianCanvas()
+        window_layout.addWidget(self.canvas)
 
         self.grid_lines_ui()
         self.square_amount_ui()
-        # self.color_scheme_ui()
         self.signature_ui()
         self.saturation_ui()
         self.generate_button_ui()
-
 
     def grid_lines_ui(self):
         '''Creates the UI for Vertical and Horizontal Lines'''
@@ -123,10 +129,16 @@ class MondrianInspiredArtUI(QtWidgets.QDialog):
         build_signature(name, typeface, fontsize)
 
 
+class MondrianCanvas(QtWidgets.QWidget):
+
+    def __init__(self):
+        super().__init__()
+        self.setMinimumSize(960, 1000)
+
 
 def show_ui():
     app = QtWidgets.QApplication(sys.argv)
-    window = MondrianInspiredArtUI()
+    window = MondrianUI()
     window.show()
     app.exec()
 
@@ -134,9 +146,6 @@ if __name__ == "__main__":
     show_ui()
 
 # Using Pyside6 for the Widgets and Painter tools
-# Create the Window
-# Create the UI for all features
 # Create the Grid
 # Create the Squares by trying the usage of cells
-# Create the Color Schemes
 # Create the Signitures

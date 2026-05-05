@@ -228,7 +228,7 @@ class MondrianCanvas(QtWidgets.QWidget):
 
                 paint.fillRect(rectangle_x + offset, rectangle_y + offset,
                                rectangle_width - offset,
-                               rectangle_height - offset
+                               rectangle_height - offset,
                                QtGui.QColor('white'))
 
         for xpositions in self.vert_x_locations:
@@ -241,7 +241,7 @@ class MondrianCanvas(QtWidgets.QWidget):
             rectangle_x, rectangle_y, rectangle_width, rectangle_height = rectangle
             color = self.random_colors[num % len(self.random_colors)]
             
-            paint.fillRect(rectangle_x, rectangle_y,
+            paint.fillRect(rectangle_x + offset, rectangle_y + offset,
                            rectangle_width - offset,
                            rectangle_height - offset, color)
 

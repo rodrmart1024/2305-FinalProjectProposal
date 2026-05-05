@@ -22,11 +22,22 @@ def build_grid(vertical_lines, horizontal_lines):
 
     return vert_x_locations, horiz_y_locations
 
-def build_colored_rectangles(vert_x_locations, horiz_y_locations,rectangle_amount,
+def build_rectangles(vert_x_locations, horiz_y_locations,rectangle_amount,
                           saturation):
-    """Function that Creates the Colored Rectangles using cells"""
+    """Builds the Colored Rectangles using cells and hsv"""
     xaxis_boundaries = [0] + vert_x_locations + [CANVAS_WIDTH]
     yaxis_boundaries = [0] + horiz_y_locations + [CANVAS_HEIGHT]
+    all_rectangles, rectangle_amount = build_rectangle_cells(xaxis_boundaries,
+                                                             yaxis_boundaries,
+                                                             rectangle_amount)
+
+    random_colors = build_rectangle_colors(saturation)
+    selected_rectangles = random.sample(all_rectangles, rectangle_amount)
+    
+    return selected_rectangles, random_colors
+
+def build_rectangle_cells(xaxis_boundaries, yaxis_boundaries, rectangle_amount):
+    """Builds the rectangle cells from boundaries"""
     all_rectangles = []
 
     for x in range(len(xaxis_boundaries) - 1):
@@ -38,7 +49,25 @@ def build_colored_rectangles(vert_x_locations, horiz_y_locations,rectangle_amoun
 
             all_rectangles.append((rectangle_x, rectangle_y, rectangle_width,
                                     rectangle_height))
-    return all_rectangles
+    
+    if rectangle_amount > len(all_rectangles):
+        rectangle_amount = len(all_rectangles)
+    
+    return all_rectangles, rectangle_amount
+
+def build_rectangle_colors(saturation):
+    """Builds the three random colors for the rectangles"""
+    hsv_saturation = int((saturation/100) * 255)
+    random_colors = []
+
+    for num in range(3):
+        hue = random.randint(0, 359)
+        color = QtGui.QColor.fromHsv(hue, hsv_saturation, 220)
+        random_colors.append(color)
+    
+    random_colors.append(QtGui.QColor('black'))
+
+    return random_colors
 
 def build_signature(name, typeface, fontsize):
     pass
@@ -161,8 +190,14 @@ class MondrianUI(QtWidgets.QDialog):
         self.canvas.horiz_y_locations = horiz_y_locations
         self.canvas.update()
         
-        build_colored_rectangles(vert_x_locations, horiz_y_locations,
-                                 rectangle_amount, saturation)
+        selected_rectangles, random_colors = build_rectangles(vert_x_locations,
+                                                            horiz_y_locations,
+                                                            rectangle_amount,
+                                                            saturation)
+        
+        self.canvas.selected_rectangles = selected_rectangles
+        self.canvas.random_colors - random_colors
+
         build_signature(name, typeface, fontsize)
 
 
@@ -173,6 +208,8 @@ class MondrianCanvas(QtWidgets.QWidget):
         self.setMinimumSize(960, 1000)
         self.vert_x_locations = []
         self.horiz_y_locations = []
+        self.selected_rectangles = []
+        self.random_colors = []
 
     def paintEvent(self, event):
         paint = QtGui.QPainter(self)
@@ -199,6 +236,4 @@ if __name__ == "__main__":
     show_ui()
 
 # Using Pyside6 for the Widgets and Painter tools
-# Create the Grid
-# Create the rectangles by trying the usage of cells
 # Create the Signitures

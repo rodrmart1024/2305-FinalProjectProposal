@@ -186,6 +186,7 @@ class MondrianUI(QtWidgets.QDialog):
         vertical_lines = self.vertical_input.value()
         horizontal_lines = self.horizontal_input.value()
         rectangle_amount = self.rectangle_amount_input.value()
+        
 
         name = self.username_input.text()
         typeface = self.typeface_input.currentText()
@@ -211,14 +212,32 @@ class MondrianUI(QtWidgets.QDialog):
         self.canvas.signature_typeface = typeface
         self.canvas.signature_fontsize = fontsize
 
-        self.canvas.update()
+        QtCore.QTimer.singleShot(300, lambda: self.advance_canvas(1))
+        QtCore.QTimer.singleShot(900, lambda: self.advance_canvas(2))
+        QtCore.QTimer.singleShot(1800, lambda: self.advance_canvas(3))
 
     def advance_canvas(self, state):
         """Advances the canvas to next state"""
         self.canvas.paint_state = state
         self.canvas.update()
+        self.canvas.signature_opacity = 0.0
+
         if state == 3:
-            self.canvas.start_signature_fade()
+            self.start_signature_fade()
+    
+    def start_signature_fade(self):
+        """Starts a fade timer for the signature"""
+        self.fade_timer = QtCore.QTimer()
+        self.fade_timer.timeout.connect(self.fade_signature)
+        self.fade_timer.start(30)
+
+    def fade_signature(self):
+        """Actual fade opacity for the signature"""
+        self.canvas.signature_opacity += 0.02
+        if self.canvas.signature_opacity >= 1.0:
+            self.canvas.signature_opacity = 1.0
+            self.fade_timer.stop()
+        self.canvas.update()
 
 
 class MondrianCanvas(QtWidgets.QWidget):
@@ -262,7 +281,7 @@ class MondrianCanvas(QtWidgets.QWidget):
         for ypositions in self.horiz_y_locations:
             paint.drawLine(0, ypositions, CANVAS_WIDTH, ypositions)
     
-    def paint_rectangle(self, paint):
+    def paint_rectangles(self, paint):
         """Animation that paints the rectangles"""
         paint.setPen(QtCore.Qt.NoPen)
         offset = 4
@@ -299,6 +318,3 @@ def show_ui():
 
 if __name__ == "__main__":
     show_ui()
-
-# Using Pyside6 for the Widgets and Painter tools
-# Create the Signitures

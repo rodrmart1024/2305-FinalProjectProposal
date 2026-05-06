@@ -2,20 +2,20 @@ import sys
 import random
 from PySide6 import QtWidgets, QtCore, QtGui
 
-CANVAS_WIDTH = 960
-CANVAS_HEIGHT = 1000
+CANVAS_WIDTH = 980
+CANVAS_HEIGHT = 980
 
 def build_grid(vertical_lines, horizontal_lines):
     '''Function that Creates a list of random x y positions within a range'''
     vert_x_locations = []
     horiz_y_locations = []
 
-    paint_x_range = range(50, CANVAS_WIDTH - 50)
+    paint_x_range = range(50, CANVAS_WIDTH)
     random_x_lines = random.sample(paint_x_range, vertical_lines)
     for xlines in sorted(random_x_lines):
         vert_x_locations.append(xlines)
 
-    paint_y_range = range(50, CANVAS_HEIGHT - 50)
+    paint_y_range = range(50, CANVAS_HEIGHT)
     random_y_lines = random.sample(paint_y_range, horizontal_lines)
     for ylines in sorted(random_y_lines):
         horiz_y_locations.append(ylines)
@@ -69,8 +69,16 @@ def build_rectangle_colors(saturation):
 
     return random_colors
 
-def build_signature(name, typeface, fontsize):
-    pass
+def build_signature(paint, name, typeface, fontsize):
+    """Paints the signature in the bottom right"""
+    signature_font = QtGui.QFont(typeface, fontsize)
+    paint.setFont(signature_font)
+    paint.setPen(QtGui.QPen(QtGui.QColor('black')))
+
+    bottom_margin = 100
+    right_margin = 200
+    paint.drawText(CANVAS_WIDTH - right_margin, CANVAS_HEIGHT - bottom_margin,
+                   name)
 
 
 class MondrianUI(QtWidgets.QDialog):
@@ -78,7 +86,7 @@ class MondrianUI(QtWidgets.QDialog):
     def __init__(self):
         super().__init__()
         self.setWindowTitle("Mondrian Inspired Generator")
-        self.resize(1920, 1000)
+        self.resize(1920, 980)
         window_layout = QtWidgets.QHBoxLayout(self)
 
         left_panel = QtWidgets.QWidget()
@@ -102,13 +110,13 @@ class MondrianUI(QtWidgets.QDialog):
 
         self.vertical_input = QtWidgets.QSpinBox()
         self.vertical_input.setMinimum(1)
-        self.vertical_input.setMaximum(5)
+        self.vertical_input.setMaximum(3)
         grid_ui_layout.addRow("Amount of Vertical Lines: ", 
                            self.vertical_input)
         
         self.horizontal_input = QtWidgets.QSpinBox()
         self.horizontal_input.setMinimum(1)
-        self.horizontal_input.setMaximum(5)
+        self.horizontal_input.setMaximum(3)
         grid_ui_layout.addRow("Amount of Horizontal Lines: ", 
                            self.horizontal_input)
         
@@ -122,8 +130,8 @@ class MondrianUI(QtWidgets.QDialog):
         rectangle_ui_layout.setSpacing(10)
 
         self.rectangle_amount_input = QtWidgets.QSpinBox()
-        self.rectangle_amount_input.setMinimum(3)
-        self.rectangle_amount_input.setMaximum(40)
+        self.rectangle_amount_input.setMinimum(4)
+        self.rectangle_amount_input.setMaximum(9)
         rectangle_ui_layout.addRow("Amount of Rectangles: ", 
                            self.rectangle_amount_input)
 
@@ -144,7 +152,7 @@ class MondrianUI(QtWidgets.QDialog):
         signature_ui_layout.addRow("Select a Typeface: ", self.typeface_input) 
 
         self.fontsize_input = QtWidgets.QComboBox()
-        self.fontsize_input.addItems(["10", "12", "16", "20"])
+        self.fontsize_input.addItems(["16", "20", "24", "30"])
         signature_ui_layout.addRow("Select a Font Size: ", self.fontsize_input) 
 
         signature_group.setLayout(signature_ui_layout)
@@ -198,21 +206,27 @@ class MondrianUI(QtWidgets.QDialog):
         self.canvas.selected_rectangles = selected_rectangles
         self.canvas.random_colors = random_colors
         self.canvas.all_rectangles = all_rectangles
-        self.canvas.update()
 
-        build_signature(name, typeface, fontsize)
+        self.canvas.signature_name = name
+        self.canvas.signature_typeface = typeface
+        self.canvas.signature_fontsize = fontsize
+
+        self.canvas.update()
 
 
 class MondrianCanvas(QtWidgets.QWidget):
 
     def __init__(self):
         super().__init__()
-        self.setMinimumSize(960, 1000)
+        self.setMinimumSize(960, 980)
         self.vert_x_locations = []
         self.horiz_y_locations = []
         self.all_rectangles = []
         self.selected_rectangles = []
         self.random_colors = []
+        self.signature_name = ''
+        self.signature_typeface = 'Arial'
+        self.signature_fontsize = 10
 
     def paintEvent(self, event):
         paint = QtGui.QPainter(self)
@@ -227,8 +241,8 @@ class MondrianCanvas(QtWidgets.QWidget):
                 rectangle_x, rectangle_y, rectangle_width, rectangle_height = rectangle
 
                 paint.fillRect(rectangle_x + offset, rectangle_y + offset,
-                               rectangle_width - offset,
-                               rectangle_height - offset,
+                               rectangle_width - offset * 2,
+                               rectangle_height - offset * 2,
                                QtGui.QColor('white'))
 
         for xpositions in self.vert_x_locations:
@@ -242,8 +256,11 @@ class MondrianCanvas(QtWidgets.QWidget):
             color = self.random_colors[num % len(self.random_colors)]
             
             paint.fillRect(rectangle_x + offset, rectangle_y + offset,
-                           rectangle_width - offset,
-                           rectangle_height - offset, color)
+                           rectangle_width - offset * 2,
+                           rectangle_height - offset * 2, color)
+        
+        build_signature(paint, self.signature_name, self.signature_typeface,
+                        self.signature_fontsize)
 
         paint.end()
 

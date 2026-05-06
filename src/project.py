@@ -231,9 +231,32 @@ class MondrianCanvas(QtWidgets.QWidget):
     def paintEvent(self, event):
         paint = QtGui.QPainter(self)
         paint.fillRect(self.rect(), QtGui.QColor('white'))
+
+        if self.paint_state >= 1:
+            self.paint_grid(paint)
+        if self.paint_state >= 2:
+            self.paint_rectangles(paint)
+        
+        build_signature(paint, self.signature_name, self.signature_typeface,
+                        self.signature_fontsize)
+
+        paint.end()
+    
+    def paint_grid(self, paint):
+        """Animation that paints the grid"""
         thickpen = QtGui.QPen(QtGui.QColor('black'))
         thickpen.setWidth(8)
         paint.setPen(thickpen)
+
+        for xpositions in self.vert_x_locations:
+            paint.drawLine(xpositions, 0, xpositions, CANVAS_HEIGHT)
+
+        for ypositions in self.horiz_y_locations:
+            paint.drawLine(0, ypositions, CANVAS_WIDTH, ypositions)
+    
+    def paint_rectangle(self, paint):
+        """Animation that paints the rectangles"""
+        paint.setPen(QtCore.Qt.NoPen)
         offset = 4
 
         for rectangle in self.all_rectangles:
@@ -244,12 +267,6 @@ class MondrianCanvas(QtWidgets.QWidget):
                                rectangle_width - offset * 2,
                                rectangle_height - offset * 2,
                                QtGui.QColor('white'))
-
-        for xpositions in self.vert_x_locations:
-            paint.drawLine(xpositions, 0, xpositions, CANVAS_HEIGHT)
-
-        for ypositions in self.horiz_y_locations:
-            paint.drawLine(0, ypositions, CANVAS_WIDTH, ypositions)
         
         for num, rectangle in enumerate(self.selected_rectangles):
             rectangle_x, rectangle_y, rectangle_width, rectangle_height = rectangle
@@ -258,11 +275,6 @@ class MondrianCanvas(QtWidgets.QWidget):
             paint.fillRect(rectangle_x + offset, rectangle_y + offset,
                            rectangle_width - offset * 2,
                            rectangle_height - offset * 2, color)
-        
-        build_signature(paint, self.signature_name, self.signature_typeface,
-                        self.signature_fontsize)
-
-        paint.end()
 
 def show_ui():
     app = QtWidgets.QApplication(sys.argv)

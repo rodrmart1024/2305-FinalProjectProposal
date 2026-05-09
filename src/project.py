@@ -155,7 +155,7 @@ class MondrianUI(QtWidgets.QDialog):
         self.rectangle_amount_input = QtWidgets.QSpinBox()
         self.rectangle_amount_input.setMinimum(4)
         self.rectangle_amount_input.setMaximum(9)
-        rectangle_ui_layout.addRow("Amount of Rectangles: ", 
+        rectangle_ui_layout.addRow("Amount of Colored Rectangles: ", 
                            self.rectangle_amount_input)
 
         rectangle_group.setLayout(rectangle_ui_layout)

@@ -5,6 +5,12 @@ from PySide6 import QtWidgets, QtCore, QtGui
 CANVAS_WIDTH = 980
 CANVAS_HEIGHT = 980
 
+def main():
+    app = QtWidgets.QApplication(sys.argv)
+    window = MondrianUI()
+    window.show()
+    app.exec()
+
 def build_grid(vertical_lines, horizontal_lines):
     '''Builds a list of random x y positions for lines within a range'''
     vert_x_locations = []
@@ -97,27 +103,43 @@ class MondrianUI(QtWidgets.QDialog):
         self.canvas = MondrianCanvas()
         window_layout.addWidget(self.canvas)
 
+        self.title_ui()
         self.grid_lines_ui()
         self.rectangle_amount_ui()
         self.signature_ui()
         self.saturation_ui()
         self.generate_button_ui()
 
+    def title_ui(self):
+        '''A Title UI for the Window'''
+        title_group = QtWidgets.QGroupBox()
+        title_layout = QtWidgets.QFormLayout()
+        title_layout.setSpacing(10)
+
+        title = QtWidgets.QLabel("🎨 Mondrian Composition II Art Generator")
+        title.setFont(QtGui.QFont("Times New Roman", 40, QtGui.QFont.Weight.Bold))
+        title.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
+        title.setWordWrap(True)
+        title_layout.addRow(title)
+
+        title_group.setLayout(title_layout)
+        self.layout.addWidget(title_group)
+    
     def grid_lines_ui(self):
         '''Creates the UI Spinbox for Vertical and Horizontal Lines'''
         grid_group = QtWidgets.QGroupBox('Grid Lines:')
         grid_ui_layout = QtWidgets.QFormLayout()
         grid_ui_layout.setSpacing(10)
 
-        self.vertical_input = QtWidgets.QSpinBox()
-        self.vertical_input.setMinimum(1)
-        self.vertical_input.setMaximum(3)
+        self.vertical_input = QtWidgets.QLineEdit()
+        self.vertical_input.setPlaceholderText("Enter a number 1-3")
+        self.vertical_input.setValidator(QtGui.QIntValidator(1, 3))
         grid_ui_layout.addRow("Amount of Vertical Lines: ", 
                            self.vertical_input)
         
-        self.horizontal_input = QtWidgets.QSpinBox()
-        self.horizontal_input.setMinimum(1)
-        self.horizontal_input.setMaximum(3)
+        self.horizontal_input = QtWidgets.QLineEdit()
+        self.horizontal_input.setPlaceholderText("Enter a number 1-3")
+        self.horizontal_input.setValidator(QtGui.QIntValidator(1, 3))
         grid_ui_layout.addRow("Amount of Horizontal Lines: ", 
                            self.horizontal_input)
         
@@ -183,8 +205,11 @@ class MondrianUI(QtWidgets.QDialog):
 
     def generate_artwork(self):
         '''Collects from input UI and sends to Build'''
-        vertical_lines = self.vertical_input.value()
-        horizontal_lines = self.horizontal_input.value()
+        if not self.vertical_input.text() or not self.horizontal_input.text():
+            return
+        
+        vertical_lines = int(self.vertical_input.text())
+        horizontal_lines = int(self.horizontal_input.text())
         rectangle_amount = self.rectangle_amount_input.value()
 
         name = self.username_input.text()
@@ -310,11 +335,6 @@ class MondrianCanvas(QtWidgets.QWidget):
                         self.signature_fontsize)
         paint.setOpacity(1.0)
 
-def show_ui():
-    app = QtWidgets.QApplication(sys.argv)
-    window = MondrianUI()
-    window.show()
-    app.exec()
 
 if __name__ == "__main__":
-    show_ui()
+    main()

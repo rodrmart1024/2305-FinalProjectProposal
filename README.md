@@ -1,7 +1,7 @@
-# PROJECT TITLE
+# Mondrian Composition II Art Generator
 
 # Demo
-Demo Video: <URL>
+Demo Video: <YT URL>
 
 ## GitHub Repository
 GitHub Repo: <URL>

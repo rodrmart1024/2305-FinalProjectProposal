@@ -1,1 +1,6 @@
-python
+sys
+random
+PySide6
+QtWidgets
+QtCore
+QtGui

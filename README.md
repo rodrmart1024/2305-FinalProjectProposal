@@ -1,11 +1,10 @@
-# PROJECT TITLE
-Mondrian Composition II Art Generator
+# Mondrian Composition II Art Generator
 
 ## Demo
 Demo Video: <URL>
 
 ## GitHub Repository
-GitHub Repo: <URL>
+GitHub Repo: https://github.com/rodrmart1024/2305-FP-Mondrian_Composition_Generator.git 
 
 ## Description
 This program is inspired by the Dutch painter Piet Mondrian. Specifically, his

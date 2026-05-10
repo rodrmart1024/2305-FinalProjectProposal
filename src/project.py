@@ -79,7 +79,7 @@ def build_signature(paint, name, typeface, fontsize):
     '''Builds the signature in the bottom right usng margins'''
     signature_font = QtGui.QFont(typeface, fontsize)
     paint.setFont(signature_font)
-    paint.setPen(QtGui.QPen(QtGui.QColor('black')))
+    paint.setPen(QtGui.QPen(QtGui.QColor('blue')))
 
     bottom_margin = 100
     right_margin = 200
